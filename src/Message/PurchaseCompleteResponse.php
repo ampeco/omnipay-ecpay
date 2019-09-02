@@ -22,7 +22,7 @@ class PurchaseCompleteResponse extends Response
      */
     public function getMessage()
     {
-        return $this->getRtnMsg();
+        return $this->data['RtnMsg'];
     }
 
     /**
@@ -32,7 +32,7 @@ class PurchaseCompleteResponse extends Response
      */
     public function getCode()
     {
-        return $this->getRtnCode();
+        return $this->data['RtnCode'];
     }
 
     /**
@@ -42,7 +42,7 @@ class PurchaseCompleteResponse extends Response
      */
     public function getTransactionReference()
     {
-        return $this->getTradeNo();
+        return $this->data['TradeNo'];
     }
 
     /**
@@ -52,6 +52,6 @@ class PurchaseCompleteResponse extends Response
      */
     public function getTransactionId()
     {
-        return $this->getMerchantTradeNo();
+        return $this->data['MerchantTradeNo'];
     }
 }

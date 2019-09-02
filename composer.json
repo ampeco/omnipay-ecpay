@@ -15,6 +15,11 @@
             "Omnipay\\Ecpay\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Omnipay\\Ecpay\\Tests\\": "tests/"
+        }
+    },
     "require": {
         "php-http/curl-client": "^1.0|^2.0",
         "omnipay/common": "^2.0|^3.0",
@@ -22,6 +27,7 @@
     },
     "require-dev": {
         "symfony/var-dumper": "^4.3",
-        "phpunit/phpunit": "^8.3"
+        "phpunit/phpunit": "^8.3",
+        "mockery/mockery": "^1.2"
     }
 }
