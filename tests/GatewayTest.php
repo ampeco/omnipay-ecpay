@@ -50,5 +50,6 @@ class GatewayTest extends TestCase
         $this->assertEquals('Succeeded', $response->getMessage());
         $this->assertEquals('2821567410556', $response->getTransactionId());
         $this->assertEquals('1909021549160081', $response->getTransactionReference());
+        $this->assertEquals($_POST, $response->getData());
     }
 }

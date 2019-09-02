@@ -54,4 +54,19 @@ class PurchaseCompleteResponse extends Response
     {
         return $this->data['MerchantTradeNo'];
     }
+
+    /**
+     * Get the response data.
+     *
+     * @return mixed
+     */
+    public function getData()
+    {
+        $data = $this->data;
+        unset($data['HashKey']);
+        unset($data['HashIV']);
+        unset($data['EncryptType']);
+
+        return $data;
+    }
 }
