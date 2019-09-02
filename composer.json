@@ -1,0 +1,27 @@
+{
+    "name": "omnipay/ecpay",
+    "description": "Ecpay gateway for Omnipay payment processing librar",
+    "authors": [
+        {
+            "name": "recca0120",
+            "email": "recca0120@gmail.com"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "sdk/ECPay.Payment.Integration.php"
+        ],
+        "psr-4": {
+            "Omnipay\\Ecpay\\": "src/"
+        }
+    },
+    "require": {
+        "php-http/curl-client": "^1.0|^2.0",
+        "omnipay/common": "^2.0|^3.0",
+        "guzzlehttp/psr7": "^1.6"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^4.3",
+        "phpunit/phpunit": "^8.3"
+    }
+}
