@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\Ecpay\Message;
+namespace Ampeco\OmnipayEcpay\Message;
 
 use ECPay_AllInOne;
 use Omnipay\Common\Message\AbstractResponse;
