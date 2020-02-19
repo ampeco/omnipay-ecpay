@@ -1,12 +1,12 @@
 <?php
 
-namespace Ampeco\OmnipayFibank\Message;
+namespace Ampeco\OmnipayEcpay\Message;
 
 use Omnipay\Common\Message\ResponseInterface;
 
-class DeleteCardRequest extends AbstractRequest
+class DeleteCardRequest extends Request
 {
-    
+
     /**
      * Get the raw data array for this message. The format of this varies from gateway to
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
@@ -17,6 +17,7 @@ class DeleteCardRequest extends AbstractRequest
     {
         return [
             'cardReference' => $this->getCardReference(),
+            'clientId' => $this->getClientId(),
         ];
     }
     
@@ -28,9 +29,8 @@ class DeleteCardRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-        $response = $this->fibank->deleteRecurringPayment($data['cardReference']);
-        
-        
+        $response = $this->getPaymentApi()->deleteCard($data['cardReference'], $data['clientId']);
+
         return $this->createResponse($response);
     }
 }

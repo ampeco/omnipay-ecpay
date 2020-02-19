@@ -1,6 +1,6 @@
 {
     "name": "ampeco/omnipay-ecpay",
-    "description": "Ecpay gateway for Omnipay payment processing librar",
+    "description": "Ecpay gateway for Omnipay payment processing",
     "version": "1.0",
     "authors": [
         {
@@ -13,9 +13,6 @@
         }
     ],
     "autoload": {
-        "files": [
-            "sdk/ECPay.Payment.Integration.php"
-        ],
         "psr-4": {
             "Ampeco\\OmnipayEcpay\\": "src/"
         }

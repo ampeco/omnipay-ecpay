@@ -2,20 +2,20 @@
 
 namespace Ampeco\OmnipayEcpay;
 
+use Ampeco\OmnipayEcpay\Message\AuthorizeRequest;
+use Ampeco\OmnipayEcpay\Message\CaptureRequest;
 use Ampeco\OmnipayEcpay\Message\CreateCardRequest;
-use Ampeco\OmnipayEcpay\Message\PurchaseCompleteRequest;
+use Ampeco\OmnipayEcpay\Message\DeleteCardRequest;
 use Ampeco\OmnipayEcpay\Message\PurchaseRequest;
+use Ampeco\OmnipayEcpay\Message\RefundRequest;
+use Ampeco\OmnipayEcpay\Message\VoidRequest;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\AbstractRequest;
 
 /**
- * @method \Omnipay\Common\Message\RequestInterface authorize(array $options = array())
  * @method \Omnipay\Common\Message\RequestInterface completeAuthorize(array $options = array())
- * @method \Omnipay\Common\Message\RequestInterface capture(array $options = array())
- * @method \Omnipay\Common\Message\RequestInterface refund(array $options = array())
- * @method \Omnipay\Common\Message\RequestInterface void(array $options = array())
  * @method \Omnipay\Common\Message\RequestInterface updateCard(array $options = array())
- * @method \Omnipay\Common\Message\RequestInterface deleteCard(array $options = array())
+ * @method \Omnipay\Common\Message\RequestInterface completePurchase(array $options = array())
  */
 class Gateway extends AbstractGateway
 {
@@ -33,7 +33,6 @@ class Gateway extends AbstractGateway
             'HashKey' => '5294y06JbISpM5x9',
             'HashIV' => 'v77hoKGq4kWxNNIS',
             'MerchantID' => '2000132',
-            'EncryptType' => '1',
         ];
     }
     public function setHashKey($value)
@@ -91,16 +90,22 @@ class Gateway extends AbstractGateway
         return $this->createRequest(PurchaseRequest::class, $parameters);
     }
 
-    public function acceptNotification(array $parameters = [])
+    public function authorize(array $parameters = array())
     {
-        return $this->completePurchase($parameters);
+        return $this->createRequest(AuthorizeRequest::class, $parameters);
     }
 
-    public function completePurchase(array $parameters)
-    {
-        return $this->createRequest(PurchaseCompleteRequest::class, $parameters);
+    public function capture(array $parameters = array()){
+        return $this->createRequest(CaptureRequest::class, $parameters);
     }
 
+    public function void(array $parameters = array()){
+        return $this->createRequest(VoidRequest::class, $parameters);
+    }
+
+    public function refund(array $parameters = array()){
+        return $this->createRequest(RefundRequest::class, $parameters);
+    }
 
     /**
      * @param array $parameters
@@ -111,14 +116,14 @@ class Gateway extends AbstractGateway
         return $this->createRequest(CreateCardRequest::class, $parameters);
     }
 
+    public function deleteCard(array $parameters = array()){
+        return $this->createRequest(DeleteCardRequest::class, $parameters);
+    }
+
+
+
     public function __call($name, $arguments)
     {
-        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface authorize(array $options = array())
-        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface completeAuthorize(array $options = array())
-        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface capture(array $options = array())
-        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface refund(array $options = array())
-        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface void(array $options = array())
-        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface updateCard(array $options = array())
-        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface deleteCard(array $options = array())
+        throw new \BadMethodCallException('Not supported');
     }
 }

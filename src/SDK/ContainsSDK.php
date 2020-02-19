@@ -7,7 +7,7 @@ namespace Ampeco\OmnipayEcpay\SDK;
 trait ContainsSDK
 {
     private $merchantMember = null;
-    protected function getMerchantMember(){
+    protected function getPaymentApi(){
         if ($this->merchantMember !== null){
             return $this->merchantMember;
         }
@@ -18,7 +18,7 @@ trait ContainsSDK
             $params = ['testMode' => true];
         }
 
-        $this->merchantMember = new MerchantMember($params['MerchantID'],$params['HashKey'],$params['HashIV'], $params['testMode']);
+        $this->merchantMember = new PaymentApi($params['MerchantID'],$params['HashKey'],$params['HashIV'], $params['testMode']);
 
         return $this->merchantMember;
     }

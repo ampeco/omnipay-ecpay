@@ -39,29 +39,24 @@ abstract class Request extends AbstractRequest
         return $this->getParameter('MerchantID');
     }
 
+    public function setClientId($value){
+        $this->setParameter('client_id', $value);
+    }
+    public function getClientId(){
+        return $this->getParameter('client_id');
+    }
 
-    protected function createResponse($data, $isSuccessful=null)
-    {
-//        if (isset($data['TRANSACTION_ID']) && !isset($data[''])){
-//            $data = array_merge($data, [
-//                'redirect_url' => $this->fibank->getRedirectUrl($data['TRANSACTION_ID'])
-//            ]);
-//        }
-        if (!is_null($isSuccessful)){
-            $data['isSuccessful'] = $isSuccessful;
-        }
-
-        return $this->response = new Response($this, $data);
+    public function setMerchantTradeNo($value){
+        $this->setParameter('MerchantTradeNo', $value);
+    }
+    public function getMerchantTradeNo(){
+        return $this->getParameter('MerchantTradeNo');
     }
 
 
-//    public function setEncryptType($value)
-//    {
-//        return $this->setParameter('EncryptType', $value);
-//    }
-//
-//    public function getEncryptType()
-//    {
-//        return $this->getParameter('EncryptType');
-//    }
+
+    protected function createResponse($data)
+    {
+        return $this->response = new Response($this, $data);
+    }
 }

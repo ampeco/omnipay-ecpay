@@ -2,9 +2,7 @@
 
 namespace Ampeco\OmnipayEcpay\Message;
 
-use Ampeco\OmnipayEcpay\SDK\PaymentApi;
-
-class PurchaseRequest extends Request
+class AuthorizeRequest extends Request
 {
 
     public function getData()
@@ -23,18 +21,6 @@ class PurchaseRequest extends Request
         $res = $this->getPaymentApi()->authorizeViaStoredCard(
             $data['merchantTradeNo'], $data['cardReference'],$data['clientId'], $data['amount'], $data['description']
         );
-        $authResponse = new Response($this, $res);
-        if ($authResponse->isSuccessful()){
-            $res = $this->getPaymentApi()->updateTransaction(
-                PaymentApi::UPDATE_CAPTURE,
-                $authResponse->getTransactionReference(),
-                $data['merchantTradeNo'],
-                $data['amount']
-            );
-            return $this->createResponse($res);
-        } else {
-            $this->response = $authResponse;
-            return $authResponse;
-        }
+        return $this->createResponse($res);
     }
 }

@@ -12,9 +12,6 @@ class CreateCardRequest extends Request
     public function setClientRedirectUrl($value){
         $this->setParameter('client_redirect_url', $value);
     }
-    public function setClientId($value){
-        $this->setParameter('client_id', $value);
-    }
     /**
      * Get the raw data array for this message. The format of this varies from gateway to
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
@@ -40,7 +37,7 @@ class CreateCardRequest extends Request
      */
     public function sendData($data)
     {
-        $data = $this->getMerchantMember()->tradeWithBindingCardIDPostData(
+        $res = $this->getPaymentApi()->storeCardPostData(
             $data['client_id'],
             $data['amount'],
             $data['description'],
@@ -48,7 +45,11 @@ class CreateCardRequest extends Request
             $data['client_redirect_url']
         );
 
-        $this->response = new CreateCardResponse($this, $data, $this->getMerchantMember()->tradeWithBindingCardIDUrl());
+        $this->response = new CreateCardResponse(
+            $this,
+            $res,
+            $this->getPaymentApi()->storeCardUrl()
+        );
         return $this->response;
     }
 }
