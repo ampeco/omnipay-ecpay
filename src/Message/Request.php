@@ -2,10 +2,13 @@
 
 namespace Ampeco\OmnipayEcpay\Message;
 
+use Ampeco\OmnipayEcpay\SDK\ContainsSDK;
 use Omnipay\Common\Message\AbstractRequest;
 
 abstract class Request extends AbstractRequest
 {
+    use ContainsSDK;
+
     public function setHashKey($value)
     {
         return $this->setParameter('HashKey', $value);
@@ -36,13 +39,29 @@ abstract class Request extends AbstractRequest
         return $this->getParameter('MerchantID');
     }
 
-    public function setEncryptType($value)
+
+    protected function createResponse($data, $isSuccessful=null)
     {
-        return $this->setParameter('EncryptType', $value);
+//        if (isset($data['TRANSACTION_ID']) && !isset($data[''])){
+//            $data = array_merge($data, [
+//                'redirect_url' => $this->fibank->getRedirectUrl($data['TRANSACTION_ID'])
+//            ]);
+//        }
+        if (!is_null($isSuccessful)){
+            $data['isSuccessful'] = $isSuccessful;
+        }
+
+        return $this->response = new Response($this, $data);
     }
 
-    public function getEncryptType()
-    {
-        return $this->getParameter('EncryptType');
-    }
+
+//    public function setEncryptType($value)
+//    {
+//        return $this->setParameter('EncryptType', $value);
+//    }
+//
+//    public function getEncryptType()
+//    {
+//        return $this->getParameter('EncryptType');
+//    }
 }
