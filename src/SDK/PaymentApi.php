@@ -49,11 +49,11 @@ class PaymentApi
         );
     }
 
-    public function storeCardPostData($clientId, $amount, $description, $server_reply_url, $client_redirect_url){
+    public function storeCardPostData($clientId, $merchantTradeNo, $amount, $description, $server_reply_url, $client_redirect_url){
         $date = Carbon::now();
         $post = [
             'MerchantID' => $this->merchant_id,
-            'MerchantTradeNo' => uniqid($date->unix()),
+            'MerchantTradeNo' => $merchantTradeNo,
             'MerchantTradeDate' => $date->format('Y/m/d H:i:s'),
             'TotalAmount' => $amount,
             'TradeDesc' => $description,
