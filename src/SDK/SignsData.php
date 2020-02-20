@@ -23,11 +23,11 @@ trait SignsData
     }
 
     protected function validDataWithSha265($data){
-        $claimed_signature = $data['CheckMacValue'];
+        $claimed_signature = @$data['CheckMacValue'];
         unset($data['CheckMacValue']);
         $actual_signature = $this->hash()->signSHA256($data);
         if ($actual_signature != $claimed_signature){
-            throw new InvalidSignatureException('Signature mismatch: '.$claimed_signature.' != '.$actual_signature);
+            throw new InvalidSignatureException('Signature mismatch: '.$claimed_signature.' != '.$actual_signature.' - '.json_encode($data));
         }
         return $data;
     }
