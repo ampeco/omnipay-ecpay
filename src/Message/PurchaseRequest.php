@@ -14,21 +14,21 @@ class PurchaseRequest extends Request
             'clientId' => $this->getClientId(),
             'amount' => $this->getAmountInteger(),
             'description' => $this->getDescription(),
-            'merchantTradeNo' => $this->getMerchantTradeNo(),
+            'transactionId' => $this->getTransactionId(),
         ];
     }
 
     public function sendData($data)
     {
         $res = $this->getPaymentApi()->authorizeViaStoredCard(
-            $data['merchantTradeNo'], $data['cardReference'],$data['clientId'], $data['amount'], $data['description']
+            $data['transactionId'], $data['cardReference'],$data['clientId'], $data['amount'], $data['description']
         );
         $authResponse = new Response($this, $res);
         if ($authResponse->isSuccessful()){
             $res = $this->getPaymentApi()->updateTransaction(
                 PaymentApi::UPDATE_CAPTURE,
                 $authResponse->getTransactionReference(),
-                $data['merchantTradeNo'],
+                $data['transactionId'],
                 $data['amount']
             );
             return $this->createResponse($res);

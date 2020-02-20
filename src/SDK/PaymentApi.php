@@ -33,7 +33,7 @@ class PaymentApi
         $date = Carbon::now();
         $post = [
             'MerchantID' => $this->merchant_id,
-            'MerchantTradeNo' => $merchantTradeNo,
+            'MerchantTradeNo' => $this->merchant_id.$merchantTradeNo,
             'MerchantTradeDate' => $date->format('Y/m/d H:i:s'),
             'TotalAmount' => $amount,
             'TradeDesc' => $description,
@@ -53,7 +53,7 @@ class PaymentApi
         $date = Carbon::now();
         $post = [
             'MerchantID' => $this->merchant_id,
-            'MerchantTradeNo' => $merchantTradeNo,
+            'MerchantTradeNo' => $this->merchant_id.$merchantTradeNo,
             'MerchantTradeDate' => $date->format('Y/m/d H:i:s'),
             'TotalAmount' => $amount,
             'TradeDesc' => $description,
@@ -97,12 +97,17 @@ class PaymentApi
     public function updateTransaction($action, $tradeNo, $merchantTradeNo, $amount){
         $post = [
             'MerchantID' => $this->merchant_id,
-            'MerchantTradeNo' => $merchantTradeNo,
+            'MerchantTradeNo' => $this->merchant_id.$merchantTradeNo,
             'TradeNo' => $tradeNo,
             'Action' => $action,
             'TotalAmount' => $amount,
         ];
         $post = $this->signDataWithSha256($post);
         return $this->validDataWithSha265($this->parseResponse($this->getHttpClient()->post('CreditDetail/DoAction', $post)));
+    }
+
+    public function getNotificationsFromPost($post){
+        $post = $this->validDataWithSha265($post);
+        return new Notification($post, $this->hash, $this->iv);
     }
 }

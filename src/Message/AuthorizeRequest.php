@@ -12,14 +12,14 @@ class AuthorizeRequest extends Request
             'clientId' => $this->getClientId(),
             'amount' => $this->getAmountInteger(),
             'description' => $this->getDescription(),
-            'merchantTradeNo' => $this->getMerchantTradeNo(),
+            'transactionId' => $this->getTransactionId(),
         ];
     }
 
     public function sendData($data)
     {
         $res = $this->getPaymentApi()->authorizeViaStoredCard(
-            $data['merchantTradeNo'], $data['cardReference'],$data['clientId'], $data['amount'], $data['description']
+            $data['transactionId'], $data['cardReference'],$data['clientId'], $data['amount'], $data['description']
         );
         return $this->createResponse($res);
     }

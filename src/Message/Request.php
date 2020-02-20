@@ -46,15 +46,6 @@ abstract class Request extends AbstractRequest
         return $this->getParameter('client_id');
     }
 
-    public function setMerchantTradeNo($value){
-        $this->setParameter('MerchantTradeNo', $value);
-    }
-    public function getMerchantTradeNo(){
-        return $this->getParameter('MerchantTradeNo');
-    }
-
-
-
     protected function createResponse($data)
     {
         return $this->response = new Response($this, $data);

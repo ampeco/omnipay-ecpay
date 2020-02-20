@@ -1,7 +1,7 @@
 {
     "name": "ampeco/omnipay-ecpay",
     "description": "Ecpay gateway for Omnipay payment processing",
-    "version": "1.0",
+    "version": "1.0.0",
     "authors": [
         {
             "name": "Alexander Alexiev",

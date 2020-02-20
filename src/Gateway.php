@@ -6,11 +6,14 @@ use Ampeco\OmnipayEcpay\Message\AuthorizeRequest;
 use Ampeco\OmnipayEcpay\Message\CaptureRequest;
 use Ampeco\OmnipayEcpay\Message\CreateCardRequest;
 use Ampeco\OmnipayEcpay\Message\DeleteCardRequest;
+use Ampeco\OmnipayEcpay\Message\ListCardsRequest;
 use Ampeco\OmnipayEcpay\Message\PurchaseRequest;
 use Ampeco\OmnipayEcpay\Message\RefundRequest;
 use Ampeco\OmnipayEcpay\Message\VoidRequest;
+use Ampeco\OmnipayEcpay\SDK\ContainsSDK;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\AbstractRequest;
+use Omnipay\Common\Message\NotificationInterface;
 
 /**
  * @method \Omnipay\Common\Message\RequestInterface completeAuthorize(array $options = array())
@@ -19,6 +22,8 @@ use Omnipay\Common\Message\AbstractRequest;
  */
 class Gateway extends AbstractGateway
 {
+    use ContainsSDK;
+
     public function getName()
     {
         return 'Ecpay';
@@ -95,15 +100,18 @@ class Gateway extends AbstractGateway
         return $this->createRequest(AuthorizeRequest::class, $parameters);
     }
 
-    public function capture(array $parameters = array()){
+    public function capture(array $parameters = array())
+    {
         return $this->createRequest(CaptureRequest::class, $parameters);
     }
 
-    public function void(array $parameters = array()){
+    public function void(array $parameters = array())
+    {
         return $this->createRequest(VoidRequest::class, $parameters);
     }
 
-    public function refund(array $parameters = array()){
+    public function refund(array $parameters = array())
+    {
         return $this->createRequest(RefundRequest::class, $parameters);
     }
 
@@ -116,14 +124,27 @@ class Gateway extends AbstractGateway
         return $this->createRequest(CreateCardRequest::class, $parameters);
     }
 
-    public function deleteCard(array $parameters = array()){
+    public function deleteCard(array $parameters = array())
+    {
         return $this->createRequest(DeleteCardRequest::class, $parameters);
     }
 
+    /**
+     * @return SDK\Notification|NotificationInterface
+     */
+    public function acceptNotification()
+    {
+        return $this->getPaymentApi()->getNotificationsFromPost($_POST);
+    }
+
+    public function listCards(array $parameters = array())
+    {
+        return $this->createRequest(ListCardsRequest::class, $parameters);
+    }
 
 
     public function __call($name, $arguments)
     {
-        throw new \BadMethodCallException('Not supported');
+        throw new \BadMethodCallException('Not supported - '.$name);
     }
 }

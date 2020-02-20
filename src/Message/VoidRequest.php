@@ -12,7 +12,7 @@ class VoidRequest extends Request
         return [
             'transactionReference' => $this->getTransactionReference(),
             'amount' => $this->getAmountInteger(),
-            'merchantTradeNo' => $this->getMerchantTradeNo(),
+            'transactionId' => $this->getTransactionId(),
         ];
     }
 
@@ -21,7 +21,7 @@ class VoidRequest extends Request
         $res = $this->getPaymentApi()->updateTransaction(
             PaymentApi::UPDATE_DELETE,
             $data['transactionReference'],
-            $data['merchantTradeNo'],
+            $data['transactionId'],
             $data['amount']
         );
         return $this->createResponse($res);

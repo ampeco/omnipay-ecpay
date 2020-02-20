@@ -24,9 +24,9 @@ class CreateCardRequest extends Request
             'client_id'      => $this->getParameter('client_id'),
             'amount'      => $this->getAmountInteger(),
             'description' => $this->getDescription(),
-            'merchantTradeNo' => $this->getMerchantTradeNo(),
-            'server_reply_url' => $this->getParameter('server_reply_url'),
-            'client_redirect_url' => $this->getParameter('client_redirect_url'),
+            'transactionId' => $this->getTransactionId(),
+            'server_reply_url' => $this->getNotifyUrl(),
+            'client_redirect_url' => $this->getReturnUrl(),
         ];
     }
     
@@ -40,7 +40,7 @@ class CreateCardRequest extends Request
     {
         $res = $this->getPaymentApi()->storeCardPostData(
             $data['client_id'],
-            $data['merchantTradeNo'],
+            $data['transactionId'],
             $data['amount'],
             $data['description'],
             $data['server_reply_url'],
