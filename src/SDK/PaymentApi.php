@@ -12,10 +12,6 @@ class PaymentApi
 
     private $merchant_id;
 
-    /**
-     * @var bool
-     */
-    private $testMode;
 
     public function __construct($merchant_id, $hash, $iv, $testMode = false)
     {

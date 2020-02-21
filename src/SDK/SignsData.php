@@ -11,6 +11,10 @@ trait SignsData
 
     private $hash;
     private $iv;
+    /**
+     * @var bool
+     */
+    private $testMode;
 
     private function hash(){
         return new Hash($this->hash, $this->iv);
@@ -23,6 +27,9 @@ trait SignsData
     }
 
     protected function validDataWithSha265($data){
+        if ($this->testMode){
+            return $data; // Signature is missing on testing for some responses
+        }
         $claimed_signature = @$data['CheckMacValue'];
         unset($data['CheckMacValue']);
         $actual_signature = $this->hash()->signSHA256($data);
