@@ -24,25 +24,25 @@ class Response extends AbstractResponse
      */
     public function isSuccessful()
     {
-        return $this->data['RtnCode'] == 1;
+        return @$this->data['RtnCode'] == 1;
     }
 
     public function getCode()
     {
-        return $this->data['RtnCode'];
+        return @$this->data['RtnCode'];
     }
 
     public function getMessage()
     {
-        return $this->data['RtnMsg'];
+        return @$this->data['RtnMsg'];
     }
     public function getTransactionReference()
     {
-        return $this->data['AllpayTradeNo'];
+        return @$this->data['AllpayTradeNo'];
     }
 
     public function getTransactionId()
     {
-        return substr($this->data['MerchantTradeNo'], $this->getRequest()->getMerchantID());
+        return substr(@$this->data['MerchantTradeNo'], $this->getRequest()->getMerchantID());
     }
 }
