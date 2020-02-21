@@ -38,7 +38,7 @@ class Response extends AbstractResponse
     }
     public function getTransactionReference()
     {
-        return @$this->data['AllpayTradeNo'];
+        return @$this->data['AllpayTradeNo'] ?: @$this->data['TradeNo'];
     }
 
     public function getTransactionId()
