@@ -24,17 +24,15 @@ class PurchaseRequest extends Request
             $data['transactionId'], $data['cardReference'],$data['clientId'], $data['amount'], $data['description']
         );
         $authResponse = new Response($this, $res);
+        $this->response = $authResponse;
         if ($authResponse->isSuccessful()){
-            $res = $this->getPaymentApi()->updateTransaction(
+            $this->getPaymentApi()->updateTransaction(
                 PaymentApi::UPDATE_CAPTURE,
                 $authResponse->getTransactionReference(),
                 $data['transactionId'],
                 $data['amount']
             );
-            return $this->createResponse($res);
-        } else {
-            $this->response = $authResponse;
-            return $authResponse;
         }
+        return $authResponse;
     }
 }
