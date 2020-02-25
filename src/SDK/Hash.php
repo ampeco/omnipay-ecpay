@@ -13,31 +13,33 @@ final class Hash
      * @param $iv
      */
     public function __construct($hash, $iv)
-
     {
         $this->hash = $hash;
         $this->iv = $iv;
     }
 
-    public function signSHA256($dictionary){
-        return $this->sign($dictionary, 'sha256');
+    public function signSHA256($dictionary, $exemptions = [])
+    {
+        return $this->sign($dictionary, 'sha256', $exemptions);
     }
 
-    public function signMD5($dictionary){
-        return $this->sign($dictionary, 'md5');
+    public function signMD5($dictionary, $exemptions = [])
+    {
+        return $this->sign($dictionary, 'md5', $exemptions);
     }
 
-    public function serialize($dictionary){
+    public function serialize($dictionary)
+    {
         unset($dictionary['CheckMacValue']);
         uksort($dictionary, 'strcasecmp');
 
         // 組合字串
-        $macValue = 'HashKey='.$this->hash;
+        $macValue = 'HashKey=' . $this->hash;
         foreach ($dictionary as $key => $value) {
-            $macValue .= '&'.$key.'='.$value;
+            $macValue .= '&' . $key . '=' . $value;
         }
 
-        $macValue .= '&HashIV='.$this->iv;
+        $macValue .= '&HashIV=' . $this->iv;
 
         // URL Encode編碼
         $macValue = urlencode($macValue);
@@ -56,8 +58,14 @@ final class Hash
         return $macValue;
     }
 
-    private function sign($dictionary, $alg){
-        $serialized = $this->serialize($dictionary);
+    private function sign($dictionary, $alg, $exemptions = [])
+    {
+        $sign = $dictionary;
+        foreach ($exemptions as $key) {
+            unset($sign[$key]);
+        }
+
+        $serialized = $this->serialize($sign);
         switch ($alg) {
             case 'sha256':
                 $res = hash('sha256', $serialized);

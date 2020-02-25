@@ -6,6 +6,7 @@ use Ampeco\OmnipayEcpay\Message\AuthorizeRequest;
 use Ampeco\OmnipayEcpay\Message\CaptureRequest;
 use Ampeco\OmnipayEcpay\Message\CreateCardRequest;
 use Ampeco\OmnipayEcpay\Message\DeleteCardRequest;
+use Ampeco\OmnipayEcpay\Message\IssueInvoiceRequest;
 use Ampeco\OmnipayEcpay\Message\ListCardsRequest;
 use Ampeco\OmnipayEcpay\Message\PurchaseRequest;
 use Ampeco\OmnipayEcpay\Message\RefundRequest;
@@ -68,6 +69,36 @@ class Gateway extends AbstractGateway
     public function getMerchantID()
     {
         return $this->getParameter('MerchantID');
+    }
+
+    public function setInvoiceHashKey($value)
+    {
+        return $this->setParameter('InvoiceHashKey', $value);
+    }
+
+    public function getInvoiceHashKey()
+    {
+        return $this->getParameter('InvoiceHashKey');
+    }
+
+    public function setInvoiceHashIV($value)
+    {
+        return $this->setParameter('InvoiceHashIV', $value);
+    }
+
+    public function getInvoiceHashIV()
+    {
+        return $this->getParameter('InvoiceHashIV');
+    }
+
+    public function setInvoiceMerchantID($value)
+    {
+        return $this->setParameter('InvoiceMerchantID', $value);
+    }
+
+    public function getInvoiceMerchantID()
+    {
+        return $this->getParameter('InvoiceMerchantID');
     }
 
     public function getCreateCardAmount()
@@ -143,8 +174,18 @@ class Gateway extends AbstractGateway
     }
 
 
+    /**
+     * @param array $parameters
+     * @return IssueInvoiceRequest
+     */
+    public function issueInvoice(array $parameters = [])
+    {
+        return $this->createRequest(IssueInvoiceRequest::class, $parameters);
+    }
+
+
     public function __call($name, $arguments)
     {
-        throw new \BadMethodCallException('Not supported - '.$name);
+        throw new \BadMethodCallException('Not supported - ' . $name);
     }
 }
