@@ -46,34 +46,34 @@ class InvoiceApi
         if (@$chain->parameters['ItemName']) {
             $chain->parameters['ItemName'] .= '|';
         }
-        $chain->parameters['ItemName'] .= $name;
+        @$chain->parameters['ItemName'] .= $name;
 
         if (@$chain->parameters['ItemPrice']) {
             $chain->parameters['ItemPrice'] .= '|';
         }
-        $chain->parameters['ItemPrice'] .= $price;
+        @$chain->parameters['ItemPrice'] .= $price;
 
         if (@$chain->parameters['ItemWord']) {
             $chain->parameters['ItemWord'] .= '|';
         }
-        $chain->parameters['ItemWord'] .= $word;
+        @$chain->parameters['ItemWord'] .= $word;
 
         if (@$chain->parameters['ItemCount']) {
             $chain->parameters['ItemCount'] .= '|';
         }
-        $chain->parameters['ItemCount'] .= $count;
+        @$chain->parameters['ItemCount'] .= $count;
 
         if ($remark) {
             if (@$chain->parameters['ItemRemark']) {
                 $chain->parameters['ItemRemark'] .= '|';
             }
-            $chain->parameters['ItemRemark'] .= $remark;
+            @$chain->parameters['ItemRemark'] .= $remark;
         }
 
         if (@$chain->parameters['ItemAmount']) {
             $chain->parameters['ItemAmount'] .= '|';
         }
-        $chain->parameters['ItemAmount'] .= $count * $price;
+        @$chain->parameters['ItemAmount'] .= $count * $price;
 
         return $chain;
     }

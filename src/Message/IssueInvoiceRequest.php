@@ -47,7 +47,7 @@ class IssueInvoiceRequest extends Request
         );
 
         // Add the company/Greenworld/Carrier/Donation/Citizen data
-        $method = "with" . $data['invoiceType'];
+        $method = "for" . $data['invoiceType'];
         $api = $api->$method($data['invoiceTypeIdentifier']);
 
         // Add the purchased item information
@@ -56,7 +56,13 @@ class IssueInvoiceRequest extends Request
              * @var ItemInterface $item
              */
             // TODO: Do not hard-code the "word" component
-            $api = $api->addItem($item->getName(), $item->getPrice(), '式', $item->getQuantity());
+            $api = $api->addItem(
+                $item->getName(),
+                $item->getPrice(),
+                '式',
+                $item->getQuantity(),
+                $item->getDescription()
+            );
         }
 
         $res = $api->invoiceIssue($data['transactionId'], $data['amount']);
