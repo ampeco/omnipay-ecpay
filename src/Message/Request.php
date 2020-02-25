@@ -39,10 +39,43 @@ abstract class Request extends AbstractRequest
         return $this->getParameter('MerchantID');
     }
 
-    public function setClientId($value){
+    public function setInvoiceHashKey($value)
+    {
+        return $this->setParameter('InvoiceHashKey', $value);
+    }
+
+    public function getInvoiceHashKey()
+    {
+        return $this->getParameter('InvoiceHashKey');
+    }
+
+    public function setInvoiceHashIV($value)
+    {
+        return $this->setParameter('InvoiceHashIV', $value);
+    }
+
+    public function getInvoiceHashIV()
+    {
+        return $this->getParameter('InvoiceHashIV');
+    }
+
+    public function setInvoiceMerchantID($value)
+    {
+        return $this->setParameter('InvoiceMerchantID', $value);
+    }
+
+    public function getInvoiceMerchantID()
+    {
+        return $this->getParameter('InvoiceMerchantID');
+    }
+
+    public function setClientId($value)
+    {
         $this->setParameter('client_id', $value);
     }
-    public function getClientId(){
+
+    public function getClientId()
+    {
         return $this->getParameter('client_id');
     }
 
