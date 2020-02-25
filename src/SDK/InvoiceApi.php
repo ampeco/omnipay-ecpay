@@ -138,4 +138,36 @@ class InvoiceApi
             )
         );
     }
+
+    public function checkMobileBarCode($barCode)
+    {
+        $date = Carbon::now();
+        $post = [
+            'TimeStamp'  => $date->unix(),
+            'MerchantID' => $this->merchant_id,
+            'BarCode'    => $barCode
+        ];
+        $post = $this->signDataWithMd5($post);
+        return $this->validDataWithMd5(
+            $this->parseResponse(
+                $this->getHttpClient()->post('Query/CheckMobileBarCode', $post)
+            )
+        );
+    }
+
+    public function checkLoveCode($loveCode)
+    {
+        $date = Carbon::now();
+        $post = [
+            'TimeStamp'  => $date->unix(),
+            'MerchantID' => $this->merchant_id,
+            'LoveCode'   => $loveCode
+        ];
+        $post = $this->signDataWithMd5($post);
+        return $this->validDataWithMd5(
+            $this->parseResponse(
+                $this->getHttpClient()->post('Query/CheckLoveCode', $post)
+            )
+        );
+    }
 }
