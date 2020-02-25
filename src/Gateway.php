@@ -113,12 +113,7 @@ class Gateway extends AbstractGateway
 
     public function getCreateCardCurrency()
     {
-        return $this->getParameter('createCardCurrency');
-    }
-
-    public function setCreateCardCurrency($value)
-    {
-        return $this->setParameter('createCardCurrency', $value);
+        return 'TWD';
     }
 
     public function purchase(array $parameters = [])
