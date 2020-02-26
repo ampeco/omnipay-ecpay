@@ -129,10 +129,10 @@ class InvoiceApi
         $post = $this->parameters;
         $post['TimeStamp'] = $date->unix();
         $post['MerchantID'] = $this->merchant_id;
-        $post['RelateNumber'] = $relateNumber;
+        $post['RelateNumber'] = $this->merchant_id.$relateNumber;
         $post['TaxType'] = 1;
-        $post['SalesAmount'] = $amount;
-        $post['InvType'] = 7;
+        $post['SalesAmount'] = intval($amount);
+        $post['InvType'] = '07';
 
         $post = $this->signDataWithMd5($post, ['ItemName', 'ItemWord', 'ItemRemark'], ['CustomerName', 'CustomerAddr', 'CustomerEmail']);
         return $this->validDataWithMd5(

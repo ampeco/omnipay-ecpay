@@ -35,9 +35,9 @@ trait SignsData
         return $data;
     }
 
-    protected function validData($data, $method = 'signSHA256')
+    protected function validData($data, $method = 'signSHA256', $ignoreOnTest=false)
     {
-        if ($this->testMode) {
+        if ($ignoreOnTest && $this->testMode) {
             return $data; // Signature is missing on testing for some responses
         }
         $claimed_signature = @$data['CheckMacValue'];
@@ -49,13 +49,13 @@ trait SignsData
         return $data;
     }
 
-    protected function validDataWithSha265($data)
+    protected function validDataWithSha265($data, $ignoreOnTest = false)
     {
-        return $this->validData($data, 'signSHA256');
+        return $this->validData($data, 'signSHA256', $ignoreOnTest);
     }
 
-    protected function validDataWithMd5($data)
+    protected function validDataWithMd5($data, $ignoreOnTest = false)
     {
-        return $this->validData($data, 'signMD5');
+        return $this->validData($data, 'signMD5', $ignoreOnTest);
     }
 }

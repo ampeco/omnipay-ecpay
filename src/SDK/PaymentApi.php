@@ -99,7 +99,10 @@ class PaymentApi
             'TotalAmount' => $amount,
         ];
         $post = $this->signDataWithSha256($post);
-        return $this->validDataWithSha265($this->parseResponse($this->getHttpClient()->post('CreditDetail/DoAction', $post)));
+        return $this->validDataWithSha265(
+            $this->parseResponse($this->getHttpClient()->post('CreditDetail/DoAction', $post)),
+            true
+        );
     }
 
     public function getNotificationsFromPost($post){

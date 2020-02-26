@@ -16,7 +16,7 @@ class IssueInvoiceRequest extends Request
     public function getData()
     {
         return [
-            'amount'                => $this->getAmountInteger(),
+            'amount'                => $this->getAmount(),
             'transactionId'         => $this->getTransactionId(),
             'clientId'              => $this->getClientId(),
             'clientName'            => $this->getClientName(),
