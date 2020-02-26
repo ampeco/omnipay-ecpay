@@ -28,9 +28,9 @@ trait SignsData
         return $data;
     }
 
-    protected function signDataWithMd5($data, $exemptions = [])
+    protected function signDataWithMd5($data, $exemptions = [], $normalize = [])
     {
-        $signature = $this->hash()->signMD5($data, $exemptions);
+        $signature = $this->hash()->signMD5($data, $exemptions, $normalize);
         $data['CheckMacValue'] = $signature;
         return $data;
     }

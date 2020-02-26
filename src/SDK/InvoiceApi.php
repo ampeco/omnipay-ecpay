@@ -31,7 +31,9 @@ class InvoiceApi
     public function withCustomer($id, $name, $addr, $phone, $email)
     {
         $chain = clone $this;
-        $chain->parameters['CustomerId'] = $this->merchant_id . $id;
+        if ($id){
+            $chain->parameters['CustomerId'] = $this->merchant_id . $id;
+        }
         $chain->parameters['CustomerName'] = $name;
         $chain->parameters['CustomerAddr'] = $addr;
         $chain->parameters['CustomerPhone'] = $phone;
@@ -108,6 +110,7 @@ class InvoiceApi
         $chain = clone $this;
         $chain->parameters['Donation'] = 1;
         $chain->parameters['LoveCode'] = $code;
+        unset($chain->parameters['CustomerId']);
         return $chain->withPrint(false);
     }
 
@@ -131,7 +134,7 @@ class InvoiceApi
         $post['SalesAmount'] = $amount;
         $post['InvType'] = 7;
 
-        $post = $this->signDataWithMd5($post, ['ItemName', 'ItemWord', 'ItemRemark']);
+        $post = $this->signDataWithMd5($post, ['ItemName', 'ItemWord', 'ItemRemark'], ['CustomerName', 'CustomerAddr', 'CustomerEmail']);
         return $this->validDataWithMd5(
             $this->parseResponse(
                 $this->getHttpClient()->post('Invoice/Issue', $post)

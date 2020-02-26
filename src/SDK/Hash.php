@@ -23,24 +23,11 @@ final class Hash
         return $this->sign($dictionary, 'sha256', $exemptions);
     }
 
-    public function signMD5($dictionary, $exemptions = [])
+    public function signMD5($dictionary, $exemptions = [], $normalize = [])
     {
-        return $this->sign($dictionary, 'md5', $exemptions);
+        return $this->sign($dictionary, 'md5', $exemptions, $normalize);
     }
-
-    public function serialize($dictionary)
-    {
-        unset($dictionary['CheckMacValue']);
-        uksort($dictionary, 'strcasecmp');
-
-        // 組合字串
-        $macValue = 'HashKey=' . $this->hash;
-        foreach ($dictionary as $key => $value) {
-            $macValue .= '&' . $key . '=' . $value;
-        }
-
-        $macValue .= '&HashIV=' . $this->iv;
-
+    public function normalize($macValue){
         // URL Encode編碼
         $macValue = urlencode($macValue);
 
@@ -58,11 +45,34 @@ final class Hash
         return $macValue;
     }
 
-    private function sign($dictionary, $alg, $exemptions = [])
+
+    public function serialize($dictionary)
+    {
+        unset($dictionary['CheckMacValue']);
+        uksort($dictionary, 'strcasecmp');
+
+        // 組合字串
+        $macValue = 'HashKey=' . $this->hash;
+        foreach ($dictionary as $key => $value) {
+            $macValue .= '&' . $key . '=' . $value;
+        }
+
+        $macValue .= '&HashIV=' . $this->iv;
+
+        // URL Encode編碼
+        $macValue = $this->normalize($macValue);
+        return $macValue;
+    }
+
+    private function sign($dictionary, $alg, $exemptions = [], $normalize = [])
     {
         $sign = $dictionary;
         foreach ($exemptions as $key) {
             unset($sign[$key]);
+        }
+
+        foreach ($normalize as $key){
+            $sign[$key] = $this->normalize($dictionary[$key]);
         }
 
         $serialized = $this->serialize($sign);
