@@ -32,7 +32,7 @@ class InvoiceApi
     {
         $chain = clone $this;
         if ($id){
-            $chain->parameters['CustomerId'] = $this->merchant_id . $id;
+            $chain->parameters['CustomerID'] = $this->merchant_id . $id;
         }
         $chain->parameters['CustomerName'] = $name;
         $chain->parameters['CustomerAddr'] = $addr;
