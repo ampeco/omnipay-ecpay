@@ -4,6 +4,7 @@ namespace Ampeco\OmnipayEcpay;
 
 use Ampeco\OmnipayEcpay\Message\AuthorizeRequest;
 use Ampeco\OmnipayEcpay\Message\CaptureRequest;
+use Ampeco\OmnipayEcpay\Message\CheckRequest;
 use Ampeco\OmnipayEcpay\Message\CreateCardRequest;
 use Ampeco\OmnipayEcpay\Message\DeleteCardRequest;
 use Ampeco\OmnipayEcpay\Message\IssueInvoiceRequest;
@@ -176,6 +177,11 @@ class Gateway extends AbstractGateway
     public function issueInvoice(array $parameters = [])
     {
         return $this->createRequest(IssueInvoiceRequest::class, $parameters);
+    }
+
+    public function checkRequest(array $parameters = [])
+    {
+        return $this->createRequest(CheckRequest::class, $parameters);
     }
 
 

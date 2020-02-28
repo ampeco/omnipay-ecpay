@@ -114,6 +114,13 @@ class InvoiceApi
         return $chain->withPrint(false);
     }
 
+    public function forGreenWorld()
+    {
+        $chain = clone $this;
+        $chain->parameters['CarruerType'] = 1;
+        return $chain;
+    }
+
     public function withPrint($print)
     {
         $chain = clone $this;

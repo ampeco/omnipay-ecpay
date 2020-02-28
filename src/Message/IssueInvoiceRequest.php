@@ -12,6 +12,7 @@ class IssueInvoiceRequest extends Request
     const INVOICE_TYPE_COMPANY = 'Company';
     const INVOICE_TYPE_MOBILE = 'Mobile';
     const INVOICE_TYPE_CITIZEN = 'Citizen';
+    const INVOICE_TYPE_GREEN_WORLD = 'GreenWorld';
 
     public function getData()
     {
