@@ -17,7 +17,7 @@ class IssueInvoiceRequest extends Request
     public function getData()
     {
         return [
-            'amount'                => $this->getAmount(),
+            'amount'                => intval($this->getAmount()),
             'transactionId'         => $this->getTransactionId(),
             'clientId'              => $this->getClientId(),
             'clientName'            => $this->getClientName(),
@@ -59,7 +59,7 @@ class IssueInvoiceRequest extends Request
             // TODO: Do not hard-code the "word" component
             $api = $api->addItem(
                 $item->getName(),
-                $item->getPrice(),
+                intval($item->getPrice()),
                 '式',
                 $item->getQuantity(),
                 $item->getDescription()

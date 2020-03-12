@@ -11,7 +11,7 @@ class CaptureRequest extends Request
     {
         return [
             'transactionReference' => $this->getTransactionReference(),
-            'amount'               => $this->getAmount(),
+            'amount'               => intval($this->getAmount()),
             'transactionId'        => $this->getTransactionId(),
         ];
     }
