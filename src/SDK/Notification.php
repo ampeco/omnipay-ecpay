@@ -67,7 +67,7 @@ class Notification implements NotificationInterface
      */
     public function getTransactionReference()
     {
-        $this->getTradeId();
+        return $this->getTradeId();
     }
 
     public function getTransactionId()
