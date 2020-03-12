@@ -21,7 +21,7 @@ class IssueInvoiceRequest extends Request
             'transactionId'         => $this->getTransactionId(),
             'clientId'              => $this->getClientId(),
             'clientName'            => $this->getClientName(),
-            'clientAddr'            => $this->getClientName(),
+            'clientAddr'            => $this->getClientAddr(),
             'clientPhone'           => $this->getClientPhone(),
             'clientEmail'           => $this->getClientEmail(),
             'invoiceType'           => $this->getInvoiceType(),
