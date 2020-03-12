@@ -36,22 +36,22 @@ class Notification implements NotificationInterface
 
     public function getCardId()
     {
-        return $this->post['CardID'];
+        return @$this->post['CardID'];
     }
 
     public function getTradeId()
     {
-        return $this->post['AllpayTradeNo'];
+        return @$this->post['AllpayTradeNo'];
     }
 
     public function getCardFirst6()
     {
-        return $this->post['Card6No'];
+        return @$this->post['Card6No'];
     }
 
     public function getCardLast4()
     {
-        return $this->post['Card4No'];
+        return @$this->post['Card4No'];
     }
 
     /**
