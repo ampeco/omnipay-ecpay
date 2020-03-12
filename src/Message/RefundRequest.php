@@ -11,7 +11,7 @@ class RefundRequest extends Request
     {
         return [
             'transactionReference' => $this->getTransactionReference(),
-            'amount'               => intval($this->getAmount()),
+            'amount'               => intval(round($this->getAmount())),
             'transactionId'        => $this->getTransactionId(),
         ];
     }
