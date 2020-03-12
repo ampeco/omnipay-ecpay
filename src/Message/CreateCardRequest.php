@@ -21,11 +21,11 @@ class CreateCardRequest extends Request
     public function getData()
     {
         return [
-            'client_id'      => $this->getParameter('client_id'),
-            'amount'      => $this->getAmountInteger(),
-            'description' => $this->getDescription(),
-            'transactionId' => $this->getTransactionId(),
-            'server_reply_url' => $this->getNotifyUrl(),
+            'client_id'           => $this->getParameter('client_id'),
+            'amount'              => $this->getAmount(),
+            'description'         => $this->getDescription(),
+            'transactionId'       => $this->getTransactionId(),
+            'server_reply_url'    => $this->getNotifyUrl(),
             'client_redirect_url' => $this->getReturnUrl(),
         ];
     }

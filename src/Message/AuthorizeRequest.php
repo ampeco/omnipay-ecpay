@@ -9,9 +9,9 @@ class AuthorizeRequest extends Request
     {
         return [
             'cardReference' => $this->getCardReference(),
-            'clientId' => $this->getClientId(),
-            'amount' => $this->getAmountInteger(),
-            'description' => $this->getDescription(),
+            'clientId'      => $this->getClientId(),
+            'amount'        => $this->getAmount(),
+            'description'   => $this->getDescription(),
             'transactionId' => $this->getTransactionId(),
         ];
     }
