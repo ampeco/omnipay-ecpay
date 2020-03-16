@@ -92,17 +92,14 @@ class PaymentApi
 
     public function updateTransaction($action, $tradeNo, $merchantTradeNo, $amount){
         $post = [
-            'MerchantID' => $this->merchant_id,
-            'MerchantTradeNo' => $this->merchant_id.$merchantTradeNo,
-            'TradeNo' => $tradeNo,
-            'Action' => $action,
-            'TotalAmount' => $amount,
+            'MerchantID'      => $this->merchant_id,
+            'MerchantTradeNo' => $this->merchant_id . $merchantTradeNo,
+            'TradeNo'         => $tradeNo,
+            'Action'          => $action,
+            'TotalAmount'     => $amount,
         ];
         $post = $this->signDataWithSha256($post);
-        return $this->validDataWithSha265(
-            $this->parseResponse($this->getHttpClient()->post('CreditDetail/DoAction', $post)),
-            true
-        );
+        return $this->parseResponse($this->getHttpClient()->post('CreditDetail/DoAction', $post));
     }
 
     public function getNotificationsFromPost($post){
