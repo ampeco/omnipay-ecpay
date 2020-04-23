@@ -12,7 +12,7 @@ class RefundRequest extends Request
         return [
             'transactionReference' => $this->getTransactionReference(),
             'amount'               => intval(round($this->getAmount())),
-            'transactionId'        => $this->getTransactionId(),
+            'merchantTradeNo'        => $this->getMerchantTradeNo(),
         ];
     }
 
@@ -21,7 +21,7 @@ class RefundRequest extends Request
         $res = $this->getPaymentApi()->updateTransaction(
             PaymentApi::UPDATE_REFUND,
             $data['transactionReference'],
-            $data['transactionId'],
+            $data['merchantTradeNo'],
             $data['amount']
         );
         return $this->createResponse($res);

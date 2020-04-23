@@ -14,7 +14,7 @@ class PurchaseRequest extends Request
             'clientId'      => $this->getClientId(),
             'amount'        => intval(round($this->getAmount())),
             'description'   => $this->getDescription(),
-            'transactionId' => $this->getTransactionId(),
+            'merchantTradeNo' => $this->getMerchantTradeNo(),
         ];
     }
 
@@ -29,7 +29,7 @@ class PurchaseRequest extends Request
             $this->getPaymentApi()->updateTransaction(
                 PaymentApi::UPDATE_CAPTURE,
                 $authResponse->getTransactionReference(),
-                $data['transactionId'],
+                $data['merchantTradeNo'],
                 $data['amount']
             );
         }

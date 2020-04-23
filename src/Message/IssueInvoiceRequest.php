@@ -18,7 +18,7 @@ class IssueInvoiceRequest extends Request
     {
         return [
             'amount'                => $this->getAmount(),
-            'transactionId'         => $this->getTransactionId(),
+            'transactionId'         => $this->getMerchantTradeNo(),
             'clientId'              => $this->getClientId(),
             'clientName'            => $this->getClientName(),
             'clientAddr'            => $this->getClientAddr(),

@@ -50,6 +50,11 @@ abstract class Request extends AbstractRequest
         return $this->setParameter('TransactionPrefix', $value);
     }
 
+    public function getMerchantTradeNo()
+    {
+        return ($this->getTransactionPrefix()?:$this->getMerchantID()).$this->getTransactionId();
+    }
+
     public function setInvoiceHashKey($value)
     {
         return $this->setParameter('InvoiceHashKey', $value);

@@ -43,6 +43,6 @@ class Response extends AbstractResponse
 
     public function getTransactionId()
     {
-        return substr(@$this->data['MerchantTradeNo'], $this->getRequest()->getMerchantID());
+        return substr(@$this->data['MerchantTradeNo'], $this->getRequest()->getTransactionPrefix() ?: $this->getRequest()->getMerchantID());
     }
 }

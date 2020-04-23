@@ -29,7 +29,7 @@ class PaymentApi
         $date = Carbon::now();
         $post = [
             'MerchantID' => $this->merchant_id,
-            'MerchantTradeNo' => $this->merchant_id.$merchantTradeNo,
+            'MerchantTradeNo' => $merchantTradeNo,
             'MerchantTradeDate' => $date->format('Y/m/d H:i:s'),
             'TotalAmount' => $amount,
             'TradeDesc' => $description,
@@ -49,7 +49,7 @@ class PaymentApi
         $date = Carbon::now();
         $post = [
             'MerchantID' => $this->merchant_id,
-            'MerchantTradeNo' => $this->merchant_id.$merchantTradeNo,
+            'MerchantTradeNo' => $merchantTradeNo,
             'MerchantTradeDate' => $date->format('Y/m/d H:i:s'),
             'TotalAmount' => $amount,
             'TradeDesc' => $description,
@@ -93,7 +93,7 @@ class PaymentApi
     public function updateTransaction($action, $tradeNo, $merchantTradeNo, $amount){
         $post = [
             'MerchantID'      => $this->merchant_id,
-            'MerchantTradeNo' => $this->merchant_id . $merchantTradeNo,
+            'MerchantTradeNo' => $merchantTradeNo,
             'TradeNo'         => $tradeNo,
             'Action'          => $action,
             'TotalAmount'     => $amount,
