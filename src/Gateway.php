@@ -72,6 +72,17 @@ class Gateway extends AbstractGateway
         return $this->getParameter('MerchantID');
     }
 
+    public function getTransactionPrefix()
+    {
+
+        return $this->getParameter('TransactionPrefix');
+    }
+
+    public function setTransactionPrefix($value)
+    {
+        return $this->setParameter('TransactionPrefix', $value);
+    }
+
     public function setInvoiceHashKey($value)
     {
         return $this->setParameter('InvoiceHashKey', $value);

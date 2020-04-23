@@ -24,7 +24,7 @@ class CreateCardRequest extends Request
             'client_id'           => $this->getParameter('client_id'),
             'amount'              => intval(round($this->getAmount())),
             'description'         => $this->getDescription(),
-            'transactionId'       => $this->getTransactionId(),
+            'transactionId'       => $this->getTransactionPrefix().$this->getTransactionId(),
             'server_reply_url'    => $this->getNotifyUrl(),
             'client_redirect_url' => $this->getReturnUrl(),
         ];
