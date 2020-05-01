@@ -21,7 +21,7 @@ class PurchaseRequest extends Request
     public function sendData($data)
     {
         $res = $this->getPaymentApi()->authorizeViaStoredCard(
-            $data['transactionId'], $data['cardReference'],$data['clientId'], $data['amount'], $data['description']
+            $data['merchantTradeNo'], $data['cardReference'],$data['clientId'], $data['amount'], $data['description']
         );
         $authResponse = new Response($this, $res);
         $this->response = $authResponse;
