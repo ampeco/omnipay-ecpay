@@ -13,6 +13,7 @@ use Ampeco\OmnipayEcpay\Message\PurchaseRequest;
 use Ampeco\OmnipayEcpay\Message\RefundRequest;
 use Ampeco\OmnipayEcpay\Message\VoidRequest;
 use Ampeco\OmnipayEcpay\SDK\ContainsSDK;
+use Ampeco\OmnipayEcpay\SDK\Notification;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Message\NotificationInterface;
@@ -172,7 +173,17 @@ class Gateway extends AbstractGateway
      */
     public function acceptNotification()
     {
-        return $this->getPaymentApi()->getNotificationsFromPost($_POST);
+        if (!$_POST) {
+            $data = file_get_contents('php://input');
+            try {
+                $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+            } catch (\JsonException $e) {
+                return new Notification([], $this->getHashKey(), $this->getHashIV());
+            }
+        } else {
+            $data = $_POST;
+        }
+        return $this->getPaymentApi()->getNotificationsFromPost($data);
     }
 
     public function listCards(array $parameters = array())
