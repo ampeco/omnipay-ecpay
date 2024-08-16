@@ -20,19 +20,23 @@ class PurchaseRequest extends Request
 
     public function sendData($data)
     {
-        $res = $this->getPaymentApi()->authorizeViaStoredCard(
+        $authRes = $this->getPaymentApi()->authorizeViaStoredCard(
             $data['merchantTradeNo'], $data['cardReference'],$data['clientId'], $data['amount'], $data['description']
         );
-        $authResponse = new Response($this, $res);
+        $authResponse = new Response($this, $authRes);
         $this->response = $authResponse;
-        if ($authResponse->isSuccessful()){
-            $this->getPaymentApi()->updateTransaction(
+
+        if ($authResponse->isSuccessful()) {
+            $captureRes = $this->getPaymentApi()->updateTransaction(
                 PaymentApi::UPDATE_CAPTURE,
                 $authResponse->getTransactionReference(),
                 $data['merchantTradeNo'],
                 $data['amount']
             );
+
+            return new Response($this, $captureRes);
         }
+
         return $authResponse;
     }
 }

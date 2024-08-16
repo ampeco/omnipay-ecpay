@@ -27,7 +27,11 @@ trait LoadsHttpClient
         $this->httpClient = null;
     }
 
-    protected function parseResponse(ResponseInterface $response){
-        return parse_query($response->getBody()->getContents());
+    /**
+     * @param ResponseInterface|null $response
+     * @return array
+     */
+    protected function parseResponse($response) {
+        return $response ? parse_query($response->getBody()->getContents()) : [];
     }
 }

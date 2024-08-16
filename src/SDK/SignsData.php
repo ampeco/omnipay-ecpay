@@ -37,6 +37,10 @@ trait SignsData
 
     protected function validData($data, $method = 'signSHA256', $ignoreOnTest=false)
     {
+        if (empty($data)) {
+            return [];
+        }
+
         if ($ignoreOnTest && $this->testMode) {
             return $data; // Signature is missing on testing for some responses
         }
