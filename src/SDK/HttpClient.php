@@ -4,6 +4,7 @@
 namespace Ampeco\OmnipayEcpay\SDK;
 
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\ServerException;
 use Psr\Http\Message\ResponseInterface;
 
 class HttpClient extends \GuzzleHttp\Client
@@ -32,7 +33,7 @@ class HttpClient extends \GuzzleHttp\Client
 
         try {
             return parent::post($uri, $options);
-        } catch (ConnectException $exception) {
+        } catch (ConnectException|ServerException $exception) {
             return null;
         }
     }
