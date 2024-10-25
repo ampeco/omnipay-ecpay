@@ -6,6 +6,7 @@ namespace Ampeco\OmnipayEcpay\SDK;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\ServerException;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\UriInterface;
 
 class HttpClient extends \GuzzleHttp\Client
 {
@@ -21,17 +22,12 @@ class HttpClient extends \GuzzleHttp\Client
         parent::__construct(array_merge($config, $options));
     }
 
-    /**
-     * @param \Psr\Http\Message\UriInterface|string $uri
-     * @param array $options
-     * @return \Psr\Http\Message\ResponseInterface|null|void
-     */
-    public function post($uri, array $options = []): ResponseInterface
+    public function handlePostRequest(UriInterface|string $uri, array $options = []): ?ResponseInterface
     {
-        $body =  http_build_query($options);
-        $options = ['body' => $body];
-
         try {
+            $body =  http_build_query($options);
+            $options = ['body' => $body];
+
             return parent::post($uri, $options);
         } catch (ConnectException|ServerException $exception) {
             return null;

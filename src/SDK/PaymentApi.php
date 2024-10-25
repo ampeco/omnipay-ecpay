@@ -40,7 +40,7 @@ class PaymentApi
         $post = $this->signDataWithSha256($post);
         return $this->validDataWithSha265(
             $this->parseResponse(
-                $this->getHttpClient()->post('MerchantMember/AuthCardID/V2', $post)
+                $this->getHttpClient()->handlePostRequest('MerchantMember/AuthCardID/V2', $post)
             )
         );
     }
@@ -72,7 +72,9 @@ class PaymentApi
             'MerchantMemberID' => $this->merchant_id.$clientId,
         ];
         $post = $this->signDataWithSha256($post);
-        return $this->validDataWithSha265($this->parseResponse($this->getHttpClient()->post('MerchantMember/QueryMemberBinding', $post)));
+        return $this->validDataWithSha265(
+            $this->parseResponse($this->getHttpClient()->handlePostRequest('MerchantMember/QueryMemberBinding', $post))
+        );
     }
 
     public function deleteCard($cardId, $clientId){
@@ -82,7 +84,9 @@ class PaymentApi
             'CardID' => $cardId,
         ];
         $post = $this->signDataWithSha256($post);
-        return $this->validDataWithSha265($this->parseResponse($this->getHttpClient()->post('MerchantMember/DeleteCardID', $post)));
+        return $this->validDataWithSha265(
+            $this->parseResponse($this->getHttpClient()->handlePostRequest('MerchantMember/DeleteCardID', $post))
+        );
     }
 
     const UPDATE_CAPTURE = 'C';
@@ -99,7 +103,7 @@ class PaymentApi
             'TotalAmount'     => $amount,
         ];
         $post = $this->signDataWithSha256($post);
-        return $this->parseResponse($this->getHttpClient()->post('CreditDetail/DoAction', $post));
+        return $this->parseResponse($this->getHttpClient()->handlePostRequest('CreditDetail/DoAction', $post));
     }
 
     public function getNotificationsFromPost($post){

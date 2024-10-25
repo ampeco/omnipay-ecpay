@@ -144,7 +144,7 @@ class InvoiceApi
         $post = $this->signDataWithMd5($post, ['ItemName', 'ItemWord', 'ItemRemark'], ['CustomerName', 'CustomerAddr', 'CustomerEmail']);
         return $this->validDataWithMd5(
             $this->parseResponse(
-                $this->getHttpClient()->post('Invoice/Issue', $post)
+                $this->getHttpClient()->handlePostRequest('Invoice/Issue', $post)
             )
         );
     }
@@ -160,7 +160,7 @@ class InvoiceApi
         $post = $this->signDataWithMd5($post);
         return $this->validDataWithMd5(
             $this->parseResponse(
-                $this->getHttpClient()->post('Query/CheckMobileBarCode', $post)
+                $this->getHttpClient()->handlePostRequest('Query/CheckMobileBarCode', $post)
             )
         );
     }
@@ -176,7 +176,7 @@ class InvoiceApi
         $post = $this->signDataWithMd5($post);
         return $this->validDataWithMd5(
             $this->parseResponse(
-                $this->getHttpClient()->post('Query/CheckLoveCode', $post)
+                $this->getHttpClient()->handlePostRequest('Query/CheckLoveCode', $post)
             )
         );
     }
