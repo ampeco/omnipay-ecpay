@@ -12,7 +12,7 @@ class InvoiceApi
 
     private $merchant_id;
 
-    public function __construct($merchant_id, $hash, $iv, $testMode = false)
+    public function __construct($merchant_id, $hash, $iv, $testMode = false, $productionURI = null, $testingURI = null)
     {
         $this->merchant_id = $merchant_id;
         $this->hash = $hash;
@@ -20,8 +20,8 @@ class InvoiceApi
         $this->testMode = $testMode;
         $this->setHttpClientOptions([
             'base_uri' => $this->testMode
-                ? 'https://einvoice-stage.ecpay.com.tw/'
-                : 'https://einvoice.ecpay.com.tw/'
+                ? $testingURI ?? 'https://einvoice-stage.ecpay.com.tw/'
+                : $productionURI ?? 'https://einvoice.ecpay.com.tw/'
         ]);
     }
 
@@ -145,7 +145,8 @@ class InvoiceApi
         return $this->validDataWithMd5(
             $this->parseResponse(
                 $this->getHttpClient()->handlePostRequest('Invoice/Issue', $post)
-            )
+            ),
+            (bool)$this->usesMock
         );
     }
 
@@ -161,7 +162,8 @@ class InvoiceApi
         return $this->validDataWithMd5(
             $this->parseResponse(
                 $this->getHttpClient()->handlePostRequest('Query/CheckMobileBarCode', $post)
-            )
+            ),
+            (bool)$this->usesMock
         );
     }
 
@@ -177,7 +179,8 @@ class InvoiceApi
         return $this->validDataWithMd5(
             $this->parseResponse(
                 $this->getHttpClient()->handlePostRequest('Query/CheckLoveCode', $post)
-            )
+            ),
+            (bool)$this->usesMock
         );
     }
 }

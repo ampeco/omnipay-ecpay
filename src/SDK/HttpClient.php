@@ -33,4 +33,11 @@ class HttpClient extends \GuzzleHttp\Client
             return null;
         }
     }
+
+    public function reInit($options = [])
+    {
+        $config = $this->getConfig();
+        parent::__construct(array_merge($config, $options));
+        return $this;
+    }
 }
