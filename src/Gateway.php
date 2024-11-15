@@ -198,7 +198,11 @@ class Gateway extends AbstractGateway
      */
     public function issueInvoice(array $parameters = [])
     {
-        return $this->createRequest(IssueInvoiceRequest::class, $parameters);
+        $request = $this->createRequest(IssueInvoiceRequest::class, $parameters);
+        if($this->mockClient) {
+            $request->setMockClient($this->mockClient);
+        }
+        return $request;
     }
 
     public function checkRequest(array $parameters = [])

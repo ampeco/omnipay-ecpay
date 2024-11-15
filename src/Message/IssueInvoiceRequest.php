@@ -66,6 +66,10 @@ class IssueInvoiceRequest extends Request
             );
         }
 
+        if($this->mockClient) {
+            $api->setMockClient($this->mockClient);
+        }
+
         $res = $api->invoiceIssue($data['transactionId'], $data['amount']);
 
         return $this->createResponse($res);

@@ -11,6 +11,7 @@ trait LoadsHttpClient
 {
     protected $httpClient = null;
     protected $httpClientOptions = [];
+    protected $usesMock = false;
 
     protected function getHttpClient(){
         if ($this->httpClient != null){
@@ -33,5 +34,12 @@ trait LoadsHttpClient
      */
     protected function parseResponse($response) {
         return $response ? parse_query($response->getBody()->getContents()) : [];
+    }
+
+    public function setMockClient(HttpClient $client)
+    {
+        $this->usesMock = true;
+
+        $this->httpClient = $client->reInit($this->httpClientOptions);
     }
 }
