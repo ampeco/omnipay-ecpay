@@ -1,7 +1,7 @@
 {
     "name": "ampeco/omnipay-ecpay",
     "description": "Ecpay gateway for Omnipay payment processing",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "authors": [
         {
             "name": "Alexander Alexiev",
@@ -25,7 +25,8 @@
     "require": {
         "php-http/curl-client": "^1.0|^2.0",
         "omnipay/common": "^2.0|^3.0",
-        "guzzlehttp/psr7": "^1.6"
+        "guzzlehttp/psr7": "^1.6",
+        "guzzlehttp/guzzle": "^6.0|^7.0"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.3",
