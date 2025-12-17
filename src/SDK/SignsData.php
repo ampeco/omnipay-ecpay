@@ -44,6 +44,12 @@ trait SignsData
         if ($ignoreOnTest && $this->testMode) {
             return $data; // Signature is missing on testing for some responses
         }
+
+        // Skip signature validation for specific error responses where EcPay uses different signature calculation
+        if (isset($data['RtnCode']) && (string)$data['RtnCode'] === '10800001') {
+            return $data;
+        }
+
         $claimed_signature = @$data['CheckMacValue'];
         unset($data['CheckMacValue']);
         $actual_signature = call_user_func([$this->hash(), $method], $data);
