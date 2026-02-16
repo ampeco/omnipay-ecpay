@@ -4,16 +4,52 @@
 namespace Ampeco\OmnipayEcpay\SDK;
 
 
+use Omnipay\Common\Http\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use function GuzzleHttp\Psr7\parse_query;
 
 trait LoadsHttpClient
 {
+    protected $omnipayClient = null;
+    protected $baseUri = '';
+    protected $usesMock = false;
     protected $httpClient = null;
     protected $httpClientOptions = [];
-    protected $usesMock = false;
 
-    protected function getHttpClient(){
+    protected function setOmnipayClient(ClientInterface $client)
+    {
+        $this->omnipayClient = $client;
+    }
+
+    protected function setBaseUri(string $baseUri)
+    {
+        $this->baseUri = rtrim($baseUri, '/') . '/';
+    }
+
+    protected function getBaseUri()
+    {
+        return $this->baseUri;
+    }
+
+    protected function handlePostRequest($endpoint, array $data = []): ?ResponseInterface
+    {
+        if ($this->usesMock || $this->omnipayClient === null) {
+            return $this->getHttpClient()->handlePostRequest($endpoint, $data);
+        }
+
+        $url = $this->baseUri . ltrim($endpoint, '/');
+        $body = http_build_query($data);
+
+        return $this->omnipayClient->request(
+            'POST',
+            $url,
+            ['Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8'],
+            $body,
+        );
+    }
+
+    protected function getHttpClient()
+    {
         if ($this->httpClient != null){
             return $this->httpClient;
         }
@@ -23,7 +59,8 @@ trait LoadsHttpClient
         return $this->httpClient;
     }
 
-    protected function setHttpClientOptions($options){
+    protected function setHttpClientOptions($options)
+    {
         $this->httpClientOptions = $options;
         $this->httpClient = null;
     }

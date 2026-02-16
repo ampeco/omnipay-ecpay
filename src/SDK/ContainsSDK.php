@@ -22,8 +22,13 @@ trait ContainsSDK
             $params = ['testMode' => true];
         }
 
-        $this->paymentApi = new PaymentApi($params['MerchantID'], $params['HashKey'], $params['HashIV'],
-            $params['testMode']);
+        $this->paymentApi = new PaymentApi(
+            $params['MerchantID'],
+            $params['HashKey'],
+            $params['HashIV'],
+            $params['testMode'],
+            $this->httpClient,
+        );
 
         return $this->paymentApi;
     }
@@ -47,6 +52,7 @@ trait ContainsSDK
             $params['testMode'],
             $params['productionBaseURI'] ?? null,
             $params['testingBaseURI'] ?? null,
+            $this->httpClient,
         );
 
         return $this->invoiceApi;

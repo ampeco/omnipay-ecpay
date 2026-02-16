@@ -5,6 +5,7 @@ namespace Ampeco\OmnipayEcpay\SDK;
 
 
 use Carbon\Carbon;
+use Omnipay\Common\Http\ClientInterface;
 
 class PaymentApi
 {
@@ -13,16 +14,20 @@ class PaymentApi
     private $merchant_id;
 
 
-    public function __construct($merchant_id, $hash, $iv, $testMode = false)
+    public function __construct($merchant_id, $hash, $iv, $testMode = false, ClientInterface $client = null)
     {
         $this->merchant_id = $merchant_id;
         $this->hash = $hash;
         $this->iv = $iv;
         $this->testMode = $testMode;
-        $this->setHttpClientOptions(['base_uri' => $this->testMode
+        $baseUri = $this->testMode
             ? 'https://payment-stage.ecpay.com.tw/'
-            : 'https://payment.ecpay.com.tw/'
-        ]);
+            : 'https://payment.ecpay.com.tw/';
+        $this->setHttpClientOptions(['base_uri' => $baseUri]);
+        if ($client) {
+            $this->setOmnipayClient($client);
+        }
+        $this->setBaseUri($baseUri);
     }
     public function authorizeViaStoredCard($merchantTradeNo, $cardId, $clientId, $amount, $description)
     {
@@ -40,7 +45,7 @@ class PaymentApi
         $post = $this->signDataWithSha256($post);
         return $this->validDataWithSha265(
             $this->parseResponse(
-                $this->getHttpClient()->handlePostRequest('MerchantMember/AuthCardID/V2', $post)
+                $this->handlePostRequest('MerchantMember/AuthCardID/V2', $post)
             )
         );
     }
@@ -63,7 +68,7 @@ class PaymentApi
     }
 
     public function storeCardUrl(){
-        return $this->getHttpClient()->getConfig('base_uri').'MerchantMember/TradeWithBindingCardID';
+        return $this->getBaseUri().'MerchantMember/TradeWithBindingCardID';
     }
 
     public function queryMemberBinding($clientId){
@@ -73,7 +78,7 @@ class PaymentApi
         ];
         $post = $this->signDataWithSha256($post);
         return $this->validDataWithSha265(
-            $this->parseResponse($this->getHttpClient()->handlePostRequest('MerchantMember/QueryMemberBinding', $post))
+            $this->parseResponse($this->handlePostRequest('MerchantMember/QueryMemberBinding', $post))
         );
     }
 
@@ -85,7 +90,7 @@ class PaymentApi
         ];
         $post = $this->signDataWithSha256($post);
         return $this->validDataWithSha265(
-            $this->parseResponse($this->getHttpClient()->handlePostRequest('MerchantMember/DeleteCardID', $post))
+            $this->parseResponse($this->handlePostRequest('MerchantMember/DeleteCardID', $post))
         );
     }
 
@@ -103,7 +108,7 @@ class PaymentApi
             'TotalAmount'     => $amount,
         ];
         $post = $this->signDataWithSha256($post);
-        return $this->parseResponse($this->getHttpClient()->handlePostRequest('CreditDetail/DoAction', $post));
+        return $this->parseResponse($this->handlePostRequest('CreditDetail/DoAction', $post));
     }
 
     public function getNotificationsFromPost($post){

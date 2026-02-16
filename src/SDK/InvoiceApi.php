@@ -5,6 +5,7 @@ namespace Ampeco\OmnipayEcpay\SDK;
 
 
 use Carbon\Carbon;
+use Omnipay\Common\Http\ClientInterface;
 
 class InvoiceApi
 {
@@ -12,17 +13,20 @@ class InvoiceApi
 
     private $merchant_id;
 
-    public function __construct($merchant_id, $hash, $iv, $testMode = false, $productionURI = null, $testingURI = null)
+    public function __construct($merchant_id, $hash, $iv, $testMode = false, $productionURI = null, $testingURI = null, ClientInterface $client = null)
     {
         $this->merchant_id = $merchant_id;
         $this->hash = $hash;
         $this->iv = $iv;
         $this->testMode = $testMode;
-        $this->setHttpClientOptions([
-            'base_uri' => $this->testMode
-                ? $testingURI ?? 'https://einvoice-stage.ecpay.com.tw/'
-                : $productionURI ?? 'https://einvoice.ecpay.com.tw/'
-        ]);
+        $baseUri = $this->testMode
+            ? $testingURI ?? 'https://einvoice-stage.ecpay.com.tw/'
+            : $productionURI ?? 'https://einvoice.ecpay.com.tw/';
+        $this->setHttpClientOptions(['base_uri' => $baseUri]);
+        if ($client) {
+            $this->setOmnipayClient($client);
+        }
+        $this->setBaseUri($baseUri);
     }
 
     // Fluent interface
@@ -144,7 +148,7 @@ class InvoiceApi
         $post = $this->signDataWithMd5($post, ['ItemName', 'ItemWord', 'ItemRemark'], ['CustomerName', 'CustomerAddr', 'CustomerEmail']);
         return $this->validDataWithMd5(
             $this->parseResponse(
-                $this->getHttpClient()->handlePostRequest('Invoice/Issue', $post)
+                $this->handlePostRequest('Invoice/Issue', $post)
             ),
             (bool)$this->usesMock
         );
@@ -161,7 +165,7 @@ class InvoiceApi
         $post = $this->signDataWithMd5($post);
         return $this->validDataWithMd5(
             $this->parseResponse(
-                $this->getHttpClient()->handlePostRequest('Query/CheckMobileBarCode', $post)
+                $this->handlePostRequest('Query/CheckMobileBarCode', $post)
             ),
             (bool)$this->usesMock
         );
@@ -178,7 +182,7 @@ class InvoiceApi
         $post = $this->signDataWithMd5($post);
         return $this->validDataWithMd5(
             $this->parseResponse(
-                $this->getHttpClient()->handlePostRequest('Query/CheckLoveCode', $post)
+                $this->handlePostRequest('Query/CheckLoveCode', $post)
             ),
             (bool)$this->usesMock
         );
